@@ -1,6 +1,8 @@
+/*
 ===============================================================
 CREATE RAW TABLES
 ===============================================================
+*/
 
 IF OBJECT_ID ('bronze.raw_domestic_accommodation', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_domestic_accommodation;
