@@ -44,7 +44,7 @@ CREATE TABLE bronze.raw_domestic_accommodation (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_39 NVARCHAR(100)
+	Unnamed_38 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_domestic_trip', 'U') IS NOT NULL
@@ -87,7 +87,7 @@ CREATE TABLE bronze.raw_domestic_trip (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_39 NVARCHAR(100)
+	Unnamed_38 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_inbound_accommodation', 'U') IS NOT NULL
@@ -130,7 +130,7 @@ CREATE TABLE bronze.raw_inbound_accommodation (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_39 NVARCHAR(100)
+	Unnamed_38 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_inbound_arrivals', 'U') IS NOT NULL
@@ -174,7 +174,7 @@ CREATE TABLE bronze.raw_inbound_arrivals (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_40 NVARCHAR(100)
+	Unnamed_39 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_inbound_expenditure', 'U') IS NOT NULL
@@ -218,7 +218,7 @@ CREATE TABLE bronze.raw_inbound_expenditure (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_40 NVARCHAR(100)
+	Unnamed_39 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_inbound_purpose', 'U') IS NOT NULL
@@ -262,7 +262,7 @@ CREATE TABLE bronze.raw_inbound_purpose (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_40 NVARCHAR(100)
+	Unnamed_39 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_inbound_regions', 'U') IS NOT NULL
@@ -306,7 +306,7 @@ CREATE TABLE bronze.raw_inbound_regions (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_40 NVARCHAR(100)
+	Unnamed_39 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_inbound_transport', 'U') IS NOT NULL
@@ -350,7 +350,7 @@ CREATE TABLE bronze.raw_inbound_transport (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_40 NVARCHAR(100)
+	Unnamed_39 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_outbound_departures', 'U') IS NOT NULL
@@ -393,7 +393,7 @@ CREATE TABLE bronze.raw_outbound_departures (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_39 NVARCHAR(100)
+	Unnamed_38 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_outbound_expenditure', 'U') IS NOT NULL
@@ -437,7 +437,7 @@ CREATE TABLE bronze.raw_outbound_expenditure (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_40 NVARCHAR(100)
+	Unnamed_39 NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_sdg_891', 'U') IS NOT NULL
@@ -528,5 +528,5 @@ CREATE TABLE bronze.raw_tourism_industries (
 	year_2020 NVARCHAR(50),
 	year_2021 NVARCHAR(50),
 	year_2022 NVARCHAR(50),
-	Unnamed_39 NVARCHAR(100)
+	Unnamed_38 NVARCHAR(MAX)
 );
