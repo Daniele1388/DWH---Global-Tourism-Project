@@ -443,49 +443,49 @@ CREATE TABLE bronze.raw_outbound_expenditure (
 IF OBJECT_ID ('bronze.raw_sdg_891', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_sdg_891;
 CREATE TABLE bronze.raw_sdg_891 (
-SDG_Indicator NVARCHAR(10),
-SeriesCode NVARCHAR(20),
-SeriesDescription NVARCHAR(255),
-GeoAreaCode INT,
-GeoAreaName NVARCHAR(100),
-TimePeriod INT,
-Value FLOAT,
-Source NVARCHAR(255),
+SDG_Indicator NVARCHAR(MAX),
+SeriesCode NVARCHAR(MAX),
+SeriesDescription NVARCHAR(MAX),
+GeoAreaCode NVARCHAR(MAX),
+GeoAreaName NVARCHAR(MAX),
+TimePeriod NVARCHAR(MAX),
+Value NVARCHAR(MAX),
+Source NVARCHAR(MAX),
 FootNote NVARCHAR(MAX),
-Nature NVARCHAR(50),
-Units NVARCHAR(20)
+Nature NVARCHAR(MAX),
+Units NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_sdg_892', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_sdg_892;
 CREATE TABLE bronze.raw_sdg_892 (
-SDG_Indicator NVARCHAR(10),
-SeriesCode NVARCHAR(20),
-SeriesDescription NVARCHAR(255),
-GeoAreaCode INT,
-GeoAreaName NVARCHAR(100),
-TimePeriod INT,
-Value FLOAT,
+SDG_Indicator NVARCHAR(MAX),
+SeriesCode NVARCHAR(MAX),
+SeriesDescription NVARCHAR(MAX),
+GeoAreaCode NVARCHAR(MAX),
+GeoAreaName NVARCHAR(MAX),
+TimePeriod NVARCHAR(MAX),
+Value NVARCHAR(MAX),
 Source NVARCHAR(255),
 FootNote NVARCHAR(MAX),
-Nature NVARCHAR(50),
-Units NVARCHAR(20)
+Nature NVARCHAR(MAX),
+Units NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_sdg_12b1', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_sdg_12b1;
 CREATE TABLE bronze.raw_sdg_12b1 (
-SDG_Indicator NVARCHAR(10),
-SeriesCode NVARCHAR(20),
-SeriesDescription NVARCHAR(255),
-GeoAreaCode INT,
-GeoAreaName NVARCHAR(100),
-TimePeriod INT,
-Value FLOAT,
-Source NVARCHAR(255),
+SDG_Indicator NVARCHAR(MAX),
+SeriesCode NVARCHAR(MAX),
+SeriesDescription NVARCHAR(MAX),
+GeoAreaCode NVARCHAR(MAX),
+GeoAreaName NVARCHAR(MAX),
+TimePeriod NVARCHAR(MAX),
+Value NVARCHAR(MAX),
+Source NVARCHAR(MAX),
 FootNote NVARCHAR(MAX),
-Nature NVARCHAR(50),
-Units NVARCHAR(20)
+Nature NVARCHAR(MAX),
+Units NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_tourism_industries', 'U') IS NOT NULL
