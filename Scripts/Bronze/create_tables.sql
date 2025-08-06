@@ -443,49 +443,52 @@ CREATE TABLE bronze.raw_outbound_expenditure (
 IF OBJECT_ID ('bronze.raw_sdg_891', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_sdg_891;
 CREATE TABLE bronze.raw_sdg_891 (
-SDG_Indicator NVARCHAR(MAX),
-SeriesCode NVARCHAR(MAX),
-SeriesDescription NVARCHAR(MAX),
-GeoAreaCode NVARCHAR(MAX),
-GeoAreaName NVARCHAR(MAX),
-TimePeriod NVARCHAR(MAX),
-Value NVARCHAR(MAX),
-Source NVARCHAR(MAX),
-FootNote NVARCHAR(MAX),
-Nature NVARCHAR(MAX),
-Units NVARCHAR(MAX)
+	Idex NVARCHAR(MAX),
+	SDG_Indicator NVARCHAR(MAX),
+	SeriesCode NVARCHAR(MAX),
+	SeriesDescription NVARCHAR(MAX),
+	GeoAreaCode NVARCHAR(MAX),
+	GeoAreaName NVARCHAR(MAX),
+	TimePeriod NVARCHAR(MAX),
+	Value NVARCHAR(MAX),
+	Source NVARCHAR(MAX),
+	FootNote NVARCHAR(MAX),
+	Nature NVARCHAR(MAX),
+	Units NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_sdg_892', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_sdg_892;
 CREATE TABLE bronze.raw_sdg_892 (
-SDG_Indicator NVARCHAR(MAX),
-SeriesCode NVARCHAR(MAX),
-SeriesDescription NVARCHAR(MAX),
-GeoAreaCode NVARCHAR(MAX),
-GeoAreaName NVARCHAR(MAX),
-TimePeriod NVARCHAR(MAX),
-Value NVARCHAR(MAX),
-Source NVARCHAR(255),
-FootNote NVARCHAR(MAX),
-Nature NVARCHAR(MAX),
-Units NVARCHAR(MAX)
+	Idex NVARCHAR(MAX),
+	SDG_Indicator NVARCHAR(MAX),
+	SeriesCode NVARCHAR(MAX),
+	SeriesDescription NVARCHAR(MAX),
+	GeoAreaCode NVARCHAR(MAX),
+	GeoAreaName NVARCHAR(MAX),
+	TimePeriod NVARCHAR(MAX),
+	Value NVARCHAR(MAX),
+	Source NVARCHAR(255),
+	FootNote NVARCHAR(MAX),
+	Nature NVARCHAR(MAX),
+	Units NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_sdg_12b1', 'U') IS NOT NULL
 	DROP TABLE bronze.raw_sdg_12b1;
 CREATE TABLE bronze.raw_sdg_12b1 (
-SDG_Indicator NVARCHAR(MAX),
-SeriesCode NVARCHAR(MAX),
-SeriesDescription NVARCHAR(MAX),
-GeoAreaCode NVARCHAR(MAX),
-GeoAreaName NVARCHAR(MAX),
-TimePeriod NVARCHAR(MAX),
-Value NVARCHAR(MAX),
-Source NVARCHAR(MAX),
-FootNote NVARCHAR(MAX),
-Nature NVARCHAR(MAX),
-Units NVARCHAR(MAX)
+	Idex NVARCHAR(MAX),
+	SDG_Indicator NVARCHAR(MAX),
+	SeriesCode NVARCHAR(MAX),
+	SeriesDescription NVARCHAR(MAX),
+	GeoAreaCode NVARCHAR(MAX),
+	GeoAreaName NVARCHAR(MAX),
+	TimePeriod NVARCHAR(MAX),
+	Value NVARCHAR(MAX),
+	Source NVARCHAR(MAX),
+	FootNote NVARCHAR(MAX),
+	Nature NVARCHAR(MAX),
+	Units NVARCHAR(MAX)
 );
 
 IF OBJECT_ID ('bronze.raw_tourism_industries', 'U') IS NOT NULL
