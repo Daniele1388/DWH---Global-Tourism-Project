@@ -2,8 +2,17 @@
 =========================================================
 Stored Procedure: Load Bronze Layer
 =========================================================
-Scrip Purpose:
+Script Purpose:
   This stored procedure loads data into the 'bronze' schema from external CSV files.
+
+NOTE: 
+  For the 'Inbound Tourism-Arrivals' dataset, the original CSV contained a comma
+  inside a text field ("of which, cruise passengers"), causing column misalignment
+  during import.
+  The file was re-exported from Power Query with text qualifiers (") and a semicolon (;)
+  as the new field delimiter.
+  Consequently, the BULK INSERT for this table uses FIELDTERMINATOR = ';'
+  instead of the default comma.
 =========================================================
 */
 
@@ -66,13 +75,17 @@ BEGIN
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
 
+		-- NOTE: This CSV was re-exported from Power Query with text qualifiers (")
+		-- and a semicolon (;) as the field delimiter to fix column shifting caused
+		-- by a comma inside the text ("of which, cruise passengers").
+		-- BULK INSERT uses FIELDTERMINATOR = ';' accordingly.
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE bronze.raw_inbound_arrivals;
 		BULK INSERT bronze.raw_inbound_arrivals 
 		FROM 'C:\Users\Utente\Desktop\SQL\Progetto Global Tourism Statistics\UN_TourismCSV\Inbound Tourism-Arrivals.csv'
 		WITH (
 			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
+			FIELDTERMINATOR = ';',
 			ROWTERMINATOR = '\n',
 			TABLOCK
 		);
@@ -242,11 +255,12 @@ BEGIN
 		PRINT '=========================================================';
 		PRINT 'ERROR OCCURED DURING LOADING BRONZE LAYER';
 		PRINT 'Error Message :' + ERROR_MESSAGE();
-		PRINT 'Error Message :' + CAST(ERROR_NUMBER() AS NVARCHAR);
-		PRINT 'Error Message :' + CAST(ERROR_STATE() AS NVARCHAR);
-		PRINT 'Error Message :' + CAST(ERROR_SEVERITY() AS NVARCHAR);
-		PRINT 'Error Message :' + CAST(ERROR_LINE() AS NVARCHAR);
-		PRINT 'Error Message :' + ISNULL(ERROR_PROCEDURE(), '-');
+		PRINT 'Error Number :' + CAST(ERROR_NUMBER() AS NVARCHAR);
+		PRINT 'Error State :' + CAST(ERROR_STATE() AS NVARCHAR);
+		PRINT 'Error Severity :' + CAST(ERROR_SEVERITY() AS NVARCHAR);
+		PRINT 'Error Line :' + CAST(ERROR_LINE() AS NVARCHAR);
+		PRINT 'Error Procedure :' + ISNULL(ERROR_PROCEDURE(), '-');
 		PRINT '=========================================================';
 	END CATCH
+END
 END
