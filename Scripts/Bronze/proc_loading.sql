@@ -13,11 +13,11 @@ NOTE:
   This avoids column shifts caused by commas inside text and normalizes numeric fields
   (thousand separators, NBSP/spaces). BULK INSERT therefore uses FIELDTERMINATOR=';'.
   
-  PATH:
+PATH:
   Replace <path_to_dataset> with the folder where you downloaded and cleaned 
   the UNWTO CSV files.
 
-  Example:
+Example:
   'C:/Users/YourName/data/UN_TourismCSV_PQ/Domestic Tourism-Accommodation.csv'
 */
 =========================================================
