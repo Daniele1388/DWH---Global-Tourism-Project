@@ -5,7 +5,7 @@ Stored Procedure: Load Bronze Layer
 Script Purpose:
   This stored procedure loads data into the 'bronze' schema from external CSV files.
 
-/*
+
 NOTE:
   All raw CSVs are pre-cleaned with Power Query (Excel) and saved as UTF-8 CSV
   with semicolon (;) as field delimiter and " as text qualifier.
@@ -18,9 +18,10 @@ PATH:
 
 Example:
   'C:/Users/YourName/data/UN_TourismCSV_PQ/Domestic Tourism-Accommodation.csv'
-*/
+
 =========================================================
 */
+
 
 CREATE OR ALTER PROCEDURE bronze.load_raw_data AS
 BEGIN
