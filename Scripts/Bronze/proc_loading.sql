@@ -7,8 +7,7 @@ Script Purpose:
 
 /*
 NOTE:
-  All raw CSVs — except 'raw_sdg_891', 'raw_sdg_892', and 'raw_sdg_12b1' —
-  are pre-cleaned with Power Query (Excel) and saved as UTF-8 CSV
+  All raw CSVs are pre-cleaned with Power Query (Excel) and saved as UTF-8 CSV
   with semicolon (;) as field delimiter and " as text qualifier.
   This avoids column shifts caused by commas inside text and normalizes numeric fields
   (thousand separators, NBSP/spaces). BULK INSERT therefore uses FIELDTERMINATOR=';'.
@@ -194,7 +193,7 @@ BEGIN
 		FROM ''<path_to_dataset>\SDG 8.9.1.csv'
 		WITH (
 			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
+			FIELDTERMINATOR = ';',
 			ROWTERMINATOR = '\n',
 			TABLOCK
 		);
@@ -208,7 +207,7 @@ BEGIN
 		FROM ''<path_to_dataset>\UN_TourismCSV\SDG 8.9.2.csv'
 		WITH (
 			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
+			FIELDTERMINATOR = ';',
 			ROWTERMINATOR = '\n',
 			TABLOCK
 		);
@@ -222,7 +221,7 @@ BEGIN
 		FROM ''<path_to_dataset>\SDG 12.b.1.csv'
 		WITH (
 			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
+			FIELDTERMINATOR = ';',
 			ROWTERMINATOR = '\n',
 			TABLOCK
 		);
@@ -231,7 +230,7 @@ BEGIN
 		PRINT '>> -------------';
 
 		PRINT '---------------------------------------------------------';
-		PRINT 'Loading Tourism_Industries Tables';
+		PRINT 'Loading Tourism_Industries Table';
 		PRINT '---------------------------------------------------------';
 	
 		SET @start_time = GETDATE();
