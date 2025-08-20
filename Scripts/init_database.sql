@@ -1,6 +1,6 @@
 /*
 ===============================================
-Create DataBase 'TourismDB' and Schemas
+CREATE DATABASE 'TOURISMDB' AND SCHEMAS
 ===============================================
 */
 
