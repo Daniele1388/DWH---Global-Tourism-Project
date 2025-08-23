@@ -1,3 +1,10 @@
+USE [TourismDB]
+GO
+/****** Object:  StoredProcedure [silver].[load_data]    Script Date: 23/08/2025 16:56:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 /*
 =========================================================
 Load Silver Layer from Bronze Raw Tables
@@ -55,8 +62,9 @@ What this script DOES
 
 5) Special SDG Handling
    - Time_Period: DATEFROMPARTS(YYYY, 1, 1).
-   - Country_code remap: 534→663, 535→658 (legacy → current codes).
-   - SeriesCode / SeriesDescription / SDG_Indicator dropped because constant.
+   - Common remaps in sdg_891 & sdg_892: 534→663, 535→658, 531→535, 276→280, 231→230
+   - sdg_12b1 remaps: 534→663, 535→658, 531→535, 276→280, 231→288 (plus a name fix: ETHIOPIA → GHANA to align with the 231→288 change)
+   - Dropped constant SDG columns: INDEX/SDG_Indicator/SeriesCode/SeriesDescription.
 
 6) Operational Behavior
    - Idempotent full reload: TRUNCATE target, then INSERT SELECT from bronze.
@@ -66,36 +74,6 @@ What this script DOES
        * Total elapsed time
    - TRY…CATCH block prints detailed error diagnostics
      (message, number, state, severity, line, procedure).
-
-What this script does NOT do (by design)
-----------------------------------------
-- No index creation/maintenance (handled later).
-- No PK/FK enforcement (to be added when modeling Gold/star schema).
-- No deduplication/deletion logic (only load & light standardization).
-- No NULL imputation (e.g., year_* NULL→0); such semantics will be handled in Gold.
-
-Assumptions
------------
-- Bronze stores all numeric fields as NVARCHAR.
-- Year columns are wide (year_1995 … year_2022) and remain wide in Silver.
-- SDG Value may be a percentage; Units conveys the semantics (no rescaling here).
-- Thousands separators in CSV may appear as commas; decimals use '.' in Silver.
-
-Performance Notes
------------------
-- TRUNCATE+INSERT favors full refresh semantics and minimal logging.
-- TRY_CONVERT safeguards type coercion; non-parsable values yield NULL.
-- CASE country normalization happens inline; consider external reference table
-  in future for maintainability/performance.
-
-Next Steps (outside this procedure)
------------------------------------
-- Add columnstore/B-tree indexes after loads.
-- Run Silver QC queries (NULLs, duplicates, units consistency).
-- Build Gold layer (Kimball star): conformed dims (Geo, Series, Units, Time),
-  unpivot year_* measures into long form for fact tables.
-- Optional: wrap in explicit transaction with SET XACT_ABORT ON if you want
-  all-or-nothing across the full batch.
 
 ======================================================================
 */
@@ -1369,9 +1347,10 @@ BEGIN
 		PRINT 'Cleaning: TRIM text; convert TimePeriod (YYYY) -> DATE (YYYY-01-01);';
 		PRINT 'cast Value to DECIMAL(18,2); handle NULLs and placeholder values;';
 		PRINT 'standardize Country_code (INT) and Geo_Area_Name.';
-		PRINT 'SPECIAL NOTE: Corrected Country_code mapping conflicts in sdg_12b1:';
-		PRINT '  - ID 534 (Bonaire in other tables) → 663 (Sint Maarten) for TEZVT source';
-		PRINT '  - ID 535 (Curacao in other tables) → 658 (Sint Eustatius) for Eustatius source';
+		PRINT 'SPECIAL NOTE: Remap conflicting Country_code values across SDG tables';
+		PRINT '    * sdg_891 & sdg_892: 534->663, 535->658, 531->535, 276->280, 231->230';
+		PRINT '    * sdg_12b1:          534->663, 535->658, 531->535, 276->280, 231->288';
+		PRINT '      (plus name fix: ETHIOPIA -> GHANA to align with 231->288 remap)';
 		PRINT 'Dropped: INDEX, SDG_Indicator, SeriesCode, SeriesDescription (constant values).';
 		PRINT '=========================================================';
 
@@ -1391,6 +1370,9 @@ BEGIN
 		CASE
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 534 THEN 663
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 535 THEN 658
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 531 THEN 535
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 276 THEN 280
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 231 THEN 230
 			ELSE TRY_CONVERT(INT, GeoAreaCode)
 		END Country_code,
 		CASE
@@ -1413,7 +1395,7 @@ BEGIN
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'TIMOR-LESTE' THEN 'TIMOR EST'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'SYRIAN ARAB REPUBLIC' THEN 'SYRIA'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'REPUBLIC OF MOLDOVA' THEN 'MOLDOVA'
-				ELSE NULLIF(TRIM(UPPER(GeoAreaName)), '')
+			ELSE NULLIF(TRIM(UPPER(GeoAreaName)), '')
 		END AS Country,	
 			DATEFROMPARTS(TRY_CONVERT(INT, TimePeriod), 1,1) AS Time_Period,
 			TRY_CONVERT(DECIMAL(18,2), Value) AS Value,
@@ -1442,6 +1424,9 @@ BEGIN
 		CASE
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 534 THEN 663
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 535 THEN 658
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 531 THEN 535
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 276 THEN 280
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 231 THEN 230
 			ELSE TRY_CONVERT(INT, GeoAreaCode)
 		END Country_code,
 		CASE
@@ -1464,7 +1449,7 @@ BEGIN
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'TIMOR-LESTE' THEN 'TIMOR EST'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'SYRIAN ARAB REPUBLIC' THEN 'SYRIA'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'REPUBLIC OF MOLDOVA' THEN 'MOLDOVA'
-				ELSE NULLIF(TRIM(UPPER(GeoAreaName)), '')
+			ELSE NULLIF(TRIM(UPPER(GeoAreaName)), '')
 		END AS Country,			
 			DATEFROMPARTS(TRY_CONVERT(INT, TimePeriod), 1,1) AS Time_Period,
 			TRY_CONVERT(DECIMAL(18,2), Value) AS Value,
@@ -1493,6 +1478,9 @@ BEGIN
 		CASE
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 534 THEN 663
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 535 THEN 658
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 531 THEN 535
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 276 THEN 280
+			WHEN TRY_CONVERT(INT, GeoAreaCode) = 231 THEN 288
 			ELSE TRY_CONVERT(INT, GeoAreaCode)
 		END Country_code,
 		CASE
@@ -1515,7 +1503,8 @@ BEGIN
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'TIMOR-LESTE' THEN 'TIMOR EST'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'SYRIAN ARAB REPUBLIC' THEN 'SYRIA'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'REPUBLIC OF MOLDOVA' THEN 'MOLDOVA'
-				ELSE NULLIF(TRIM(UPPER(GeoAreaName)), '')
+			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'ETHIOPIA' THEN 'GHANA'
+			ELSE NULLIF(TRIM(UPPER(GeoAreaName)), '')
 		END AS Country,	
 			DATEFROMPARTS(TRY_CONVERT(INT, TimePeriod), 1,1) AS Time_Period,
 			TRY_CONVERT(DECIMAL(18,2), Value) AS Value,
