@@ -23,12 +23,12 @@ What this script DOES
      silver.sdg_891, silver.sdg_892, silver.sdg_12b1
 
 2) Column Mapping & Renaming
-   - Bronze C      -> Silver Geo_Area_Code (INT)
-   - Bronze S      -> Silver Series_Code (DECIMAL(5,2))
+   - Bronze C      -> Silver Country_code (INT)
+   - Bronze S      -> Silver Indicator_code (DECIMAL(5,2))
    - Bronze Basic_Data -> Silver Country (cleaned/standardized)
-   - Bronze Unnamed_5..Unnamed_8 -> Silver Series_L1..Series_L4
+   - Bronze Unnamed_5..Unnamed_8 -> Silver Indicator_L1..Indicator_L4
    - Bronze Units  -> Silver Units
-   - For SDG tables: GeoAreaCode -> Geo_Area_Code; GeoAreaName -> Country;
+   - For SDG tables: GeoAreaCode -> Country_code; GeoAreaName -> Country;
      TimePeriod (YYYY) -> Time_Period (DATE = 1 Jan of that year);
      Value -> DECIMAL(18,2); Source, Nature, Units carried over.
 
@@ -55,7 +55,7 @@ What this script DOES
 
 5) Special SDG Handling
    - Time_Period: DATEFROMPARTS(YYYY, 1, 1).
-   - Geo_Area_Code remap: 534→663, 535→658 (legacy → current codes).
+   - Country_code remap: 534→663, 535→658 (legacy → current codes).
    - SeriesCode / SeriesDescription / SDG_Indicator dropped because constant.
 
 6) Operational Behavior
@@ -100,6 +100,7 @@ Next Steps (outside this procedure)
 ======================================================================
 */
 
+
 CREATE OR ALTER PROCEDURE [silver].[load_data] AS
 BEGIN
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME; 
@@ -111,7 +112,7 @@ BEGIN
 		PRINT 'Source: corresponding bronze raw tables (wide year_* format)';
 		PRINT 'Cleaning: TRIM text; convert ''..''/'''' to NULL; remove thousands';
 		PRINT 'separators (commas) preserving decimals; cast year_* to DECIMAL(18,2);';
-		PRINT 'map C -> Geo_Area_Code (INT) and S -> Series_Code (DECIMAL(5,2));';
+		PRINT 'map C -> Country_code (INT) and S -> Indicator_code (DECIMAL(5,2));';
 		PRINT 'standardize Country names and ignore header/noise rows.';
 		PRINT 'Dropped: C_and_S, Notes, and unused Unnamed_* columns.';
 		PRINT '=========================================================';
@@ -120,13 +121,13 @@ BEGIN
 		TRUNCATE TABLE silver.domestic_accommodation;
 		INSERT INTO silver.domestic_accommodation
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			year_1995,
 			year_1996,
@@ -158,8 +159,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -188,10 +189,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1996, '..',''), ',', '')),'')) AS year_1996,
@@ -231,13 +232,13 @@ BEGIN
 		TRUNCATE TABLE silver.domestic_trip;
 		INSERT INTO silver.domestic_trip
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			year_1995,
 			year_1996,
@@ -269,8 +270,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -299,10 +300,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1996, '..',''), ',', '')),'')) AS year_1996,
@@ -342,13 +343,13 @@ BEGIN
 		TRUNCATE TABLE silver.inbound_accommodation;
 		INSERT INTO silver.inbound_accommodation
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			year_1995,
 			year_1996,
@@ -380,8 +381,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -410,10 +411,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1996, '..',''), ',', '')),'')) AS year_1996,
@@ -453,13 +454,13 @@ BEGIN
 		TRUNCATE TABLE silver.outbound_departures;
 		INSERT INTO silver.outbound_departures
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			year_1995,
 			year_1996,
@@ -491,8 +492,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -521,10 +522,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1996, '..',''), ',', '')),'')) AS year_1996,
@@ -564,13 +565,13 @@ BEGIN
 		TRUNCATE TABLE silver.tourism_industries;
 		INSERT INTO silver.tourism_industries
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			year_1995,
 			year_1996,
@@ -602,8 +603,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -632,10 +633,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1996, '..',''), ',', '')),'')) AS year_1996,
@@ -677,22 +678,23 @@ BEGIN
 		PRINT 'Source: corresponding bronze raw tables (wide year_* format)';
 		PRINT 'Cleaning: TRIM text; convert ''..''/'''' to NULL; remove thousands';
 		PRINT 'separators (commas) preserving decimals; cast year_* to DECIMAL(18,2);';
-		PRINT 'map C -> Geo_Area_Code (INT), S -> Series_Code (DECIMAL(5,2));';
+		PRINT 'map C -> Country_code (INT), S -> Indicator_code (DECIMAL(5,2));';
 		PRINT 'extract/clean Series -> Series_method; standardize Country names.';
 		PRINT 'Dropped: C_and_S, Notes, and unused Unnamed_* columns.';
 		PRINT '=========================================================';
+
 		
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_arrivals;
 		INSERT INTO silver.inbound_arrivals
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			Series_method,
 			year_1995,
@@ -725,8 +727,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -755,10 +757,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			NULLIF(TRIM(REPLACE(Series, '..','')), '') AS Series_method,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
@@ -799,13 +801,13 @@ BEGIN
 		TRUNCATE TABLE silver.inbound_expenditure;
 		INSERT INTO silver.inbound_expenditure
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			Series_method,
 			year_1995,
@@ -838,8 +840,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -868,10 +870,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			NULLIF(TRIM(REPLACE(Series, '..','')), '') AS Series_method,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
@@ -912,13 +914,13 @@ BEGIN
 		TRUNCATE TABLE silver.inbound_purpose;
 		INSERT INTO silver.inbound_purpose
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			Series_method,
 			year_1995,
@@ -951,8 +953,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -981,10 +983,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			NULLIF(TRIM(REPLACE(Series, '..','')), '') AS Series_method,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
@@ -1025,13 +1027,13 @@ BEGIN
 		TRUNCATE TABLE silver.inbound_regions;
 		INSERT INTO silver.inbound_regions
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			Series_method,
 			year_1995,
@@ -1064,8 +1066,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -1094,10 +1096,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			NULLIF(TRIM(REPLACE(Series, '..','')), '') AS Series_method,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
@@ -1138,13 +1140,13 @@ BEGIN
 		TRUNCATE TABLE silver.inbound_transport;
 		INSERT INTO silver.inbound_transport
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			Series_method,
 			year_1995,
@@ -1177,8 +1179,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -1207,10 +1209,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			NULLIF(TRIM(REPLACE(Series, '..','')), '') AS Series_method,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
@@ -1251,13 +1253,13 @@ BEGIN
 		TRUNCATE TABLE silver.outbound_expenditure;
 		INSERT INTO silver.outbound_expenditure
 		(
-			Geo_Area_Code,
-			Series_Code,
+			Country_code,
+			Indicator_code,
 			Country,
-			Series_L1,
-			Series_L2,
-			Series_L3,
-			Series_L4,
+			Indicator_L1,
+			Indicator_L2,
+			Indicator_L3,
+			Indicator_L4,
 			Units,
 			Series_method,
 			year_1995,
@@ -1290,8 +1292,8 @@ BEGIN
 			year_2022
 		)
 		SELECT
-			TRY_CONVERT(INT, C) AS Geo_Area_Code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Series_Code,
+			TRY_CONVERT(INT, C) AS Country_code,
+			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -1320,10 +1322,10 @@ BEGIN
 					ELSE NULLIF(TRIM(REPLACE(Basic_data,'..','')), '')
 				END
 			END AS Country,
-			NULLIF(TRIM(Unnamed_5), '') AS Series_L1,
-			NULLIF(TRIM(Unnamed_6), '') AS Series_L2,
-			NULLIF(TRIM(Unnamed_7), '') AS Series_L3,
-			NULLIF(TRIM(Unnamed_8), '') AS Series_L4,
+			NULLIF(TRIM(Unnamed_5), '') AS Indicator_L1,
+			NULLIF(TRIM(Unnamed_6), '') AS Indicator_L2,
+			NULLIF(TRIM(Unnamed_7), '') AS Indicator_L3,
+			NULLIF(TRIM(Unnamed_8), '') AS Indicator_L4,
 			NULLIF(TRIM(Units), '') AS Units,
 			NULLIF(TRIM(REPLACE(Series, '..','')), '') AS Series_method,
 			TRY_CONVERT(DECIMAL(18, 2), NULLIF(TRIM(REPLACE(REPLACE(year_1995, '..',''), ',', '')),'')) AS year_1995,
@@ -1366,8 +1368,8 @@ BEGIN
 		PRINT 'Source: corresponding bronze raw tables';
 		PRINT 'Cleaning: TRIM text; convert TimePeriod (YYYY) -> DATE (YYYY-01-01);';
 		PRINT 'cast Value to DECIMAL(18,2); handle NULLs and placeholder values;';
-		PRINT 'standardize Geo_Area_Code (INT) and Geo_Area_Name.';
-		PRINT 'SPECIAL NOTE: Corrected Geo_Area_Code mapping conflicts in sdg_12b1:';
+		PRINT 'standardize Country_code (INT) and Geo_Area_Name.';
+		PRINT 'SPECIAL NOTE: Corrected Country_code mapping conflicts in sdg_12b1:';
 		PRINT '  - ID 534 (Bonaire in other tables) → 663 (Sint Maarten) for TEZVT source';
 		PRINT '  - ID 535 (Curacao in other tables) → 658 (Sint Eustatius) for Eustatius source';
 		PRINT 'Dropped: INDEX, SDG_Indicator, SeriesCode, SeriesDescription (constant values).';
@@ -1377,7 +1379,7 @@ BEGIN
 		TRUNCATE TABLE silver.sdg_891;
 		INSERT INTO silver.sdg_891
 		(
-			Geo_Area_Code,
+			Country_code,
 			Country,
 			Time_Period,
 			Value,
@@ -1390,7 +1392,7 @@ BEGIN
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 534 THEN 663
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 535 THEN 658
 			ELSE TRY_CONVERT(INT, GeoAreaCode)
-		END Geo_Area_Code,
+		END Country_code,
 		CASE
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') LIKE 'C%TE D''IVOIRE' THEN 'COTE D''IVOIRE'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'CHINA, HONG KONG SPECIAL ADMINISTRATIVE REGION' THEN 'HONG KONG'
@@ -1428,7 +1430,7 @@ BEGIN
 		TRUNCATE TABLE silver.sdg_892;
 		INSERT INTO silver.sdg_892
 		(
-			Geo_Area_Code,
+			Country_code,
 			Country,
 			Time_Period,
 			Value,
@@ -1441,7 +1443,7 @@ BEGIN
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 534 THEN 663
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 535 THEN 658
 			ELSE TRY_CONVERT(INT, GeoAreaCode)
-		END Geo_Area_Code,
+		END Country_code,
 		CASE
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') LIKE 'C%TE D''IVOIRE' THEN 'COTE D''IVOIRE'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'CHINA, HONG KONG SPECIAL ADMINISTRATIVE REGION' THEN 'HONG KONG'
@@ -1479,7 +1481,7 @@ BEGIN
 		TRUNCATE TABLE silver.sdg_12b1;
 		INSERT INTO silver.sdg_12b1
 		(
-			Geo_Area_Code,
+			Country_code,
 			Country,
 			Time_Period,
 			Value,
@@ -1492,7 +1494,7 @@ BEGIN
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 534 THEN 663
 			WHEN TRY_CONVERT(INT, GeoAreaCode) = 535 THEN 658
 			ELSE TRY_CONVERT(INT, GeoAreaCode)
-		END Geo_Area_Code,
+		END Country_code,
 		CASE
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') LIKE 'C%TE D''IVOIRE' THEN 'COTE D''IVOIRE'
 			WHEN NULLIF(TRIM(UPPER(GeoAreaName)), '') = 'CHINA, HONG KONG SPECIAL ADMINISTRATIVE REGION' THEN 'HONG KONG'
