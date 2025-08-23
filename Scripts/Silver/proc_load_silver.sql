@@ -1,10 +1,3 @@
-USE [TourismDB]
-GO
-/****** Object:  StoredProcedure [silver].[load_data]    Script Date: 23/08/2025 16:56:48 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 /*
 =========================================================
 Load Silver Layer from Bronze Raw Tables
