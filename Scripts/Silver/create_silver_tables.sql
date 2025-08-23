@@ -7,13 +7,13 @@ CREATE SILVER TABLES
 IF OBJECT_ID ('silver.domestic_accommodation', 'U') IS NOT NULL
 	DROP TABLE silver.domestic_accommodation;
 CREATE TABLE silver.domestic_accommodation (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
 	year_1996 DECIMAL(18, 2) NULL,
@@ -49,13 +49,13 @@ CREATE TABLE silver.domestic_accommodation (
 IF OBJECT_ID ('silver.domestic_trip', 'U') IS NOT NULL
 	DROP TABLE silver.domestic_trip;
 CREATE TABLE silver.domestic_trip (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
 	year_1996 DECIMAL(18, 2) NULL,
@@ -91,13 +91,13 @@ CREATE TABLE silver.domestic_trip (
 IF OBJECT_ID ('silver.inbound_accommodation', 'U') IS NOT NULL
 	DROP TABLE silver.inbound_accommodation;
 CREATE TABLE silver.inbound_accommodation (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
 	year_1996 DECIMAL(18, 2) NULL,
@@ -133,13 +133,13 @@ CREATE TABLE silver.inbound_accommodation (
 IF OBJECT_ID ('silver.inbound_arrivals', 'U') IS NOT NULL
 	DROP TABLE silver.inbound_arrivals;
 CREATE TABLE silver.inbound_arrivals (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	Series_method NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
@@ -176,13 +176,13 @@ CREATE TABLE silver.inbound_arrivals (
 IF OBJECT_ID ('silver.inbound_expenditure', 'U') IS NOT NULL
 	DROP TABLE silver.inbound_expenditure;
 CREATE TABLE silver.inbound_expenditure (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	Series_method NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
@@ -219,13 +219,13 @@ CREATE TABLE silver.inbound_expenditure (
 IF OBJECT_ID ('silver.inbound_purpose', 'U') IS NOT NULL
 	DROP TABLE silver.inbound_purpose;
 CREATE TABLE silver.inbound_purpose (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	Series_method NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
@@ -262,13 +262,13 @@ CREATE TABLE silver.inbound_purpose (
 IF OBJECT_ID ('silver.inbound_regions', 'U') IS NOT NULL
 	DROP TABLE silver.inbound_regions;
 CREATE TABLE silver.inbound_regions (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	Series_method NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
@@ -305,13 +305,13 @@ CREATE TABLE silver.inbound_regions (
 IF OBJECT_ID ('silver.inbound_transport', 'U') IS NOT NULL
 	DROP TABLE silver.inbound_transport;
 CREATE TABLE silver.inbound_transport (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	Series_method NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
@@ -348,13 +348,13 @@ CREATE TABLE silver.inbound_transport (
 IF OBJECT_ID ('silver.outbound_departures', 'U') IS NOT NULL
 	DROP TABLE silver.outbound_departures;
 CREATE TABLE silver.outbound_departures (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
 	year_1996 DECIMAL(18, 2) NULL,
@@ -390,13 +390,13 @@ CREATE TABLE silver.outbound_departures (
 IF OBJECT_ID ('silver.outbound_expenditure', 'U') IS NOT NULL
 	DROP TABLE silver.outbound_expenditure;
 CREATE TABLE silver.outbound_expenditure (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	Series_method NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
@@ -433,7 +433,7 @@ CREATE TABLE silver.outbound_expenditure (
 IF OBJECT_ID ('silver.sdg_891', 'U') IS NOT NULL
 	DROP TABLE silver.sdg_891;
 CREATE TABLE silver.sdg_891 (
-	Geo_Area_Code INT,
+	Country_code INT,
 	Country NVARCHAR(200),
 	Time_Period DATE,
 	Value DECIMAL(18, 2),
@@ -446,7 +446,7 @@ CREATE TABLE silver.sdg_891 (
 IF OBJECT_ID ('silver.sdg_892', 'U') IS NOT NULL
 	DROP TABLE silver.sdg_892;
 CREATE TABLE silver.sdg_892 (
-	Geo_Area_Code INT,
+	Country_code INT,
 	Country NVARCHAR(200),
 	Time_Period DATE,
 	Value DECIMAL(18, 2),
@@ -459,7 +459,7 @@ CREATE TABLE silver.sdg_892 (
 IF OBJECT_ID ('silver.sdg_12b1', 'U') IS NOT NULL
 	DROP TABLE silver.sdg_12b1;
 CREATE TABLE silver.sdg_12b1 (
-	Geo_Area_Code INT,
+	Country_code INT,
 	Country NVARCHAR(200),
 	Time_Period DATE,
 	Value DECIMAL(18, 2),
@@ -472,13 +472,13 @@ CREATE TABLE silver.sdg_12b1 (
 IF OBJECT_ID ('silver.tourism_industries', 'U') IS NOT NULL
 	DROP TABLE silver.tourism_industries;
 CREATE TABLE silver.tourism_industries (
-	Geo_Area_Code INT,
-	Series_code DECIMAL(5, 2),
+	Country_code INT,
+	Indicator_code DECIMAL(5, 2),
 	Country NVARCHAR(200),
-	Series_L1 NVARCHAR(255),
-	Series_L2 NVARCHAR(255),
-	Series_L3 NVARCHAR(255),
-	Series_L4 NVARCHAR(255),
+	Indicator_L1 NVARCHAR(255),
+	Indicator_L2 NVARCHAR(255),
+	Indicator_L3 NVARCHAR(255),
+	Indicator_L4 NVARCHAR(255),
 	Units NVARCHAR(100),
 	year_1995 DECIMAL(18, 2) NULL,
 	year_1996 DECIMAL(18, 2) NULL,
