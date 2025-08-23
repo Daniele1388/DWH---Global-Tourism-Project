@@ -71,7 +71,6 @@ What this script DOES
 ======================================================================
 */
 
-
 CREATE OR ALTER PROCEDURE [silver].[load_data] AS
 BEGIN
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME; 
