@@ -117,7 +117,7 @@ global-tourism-dwh/
 ## 📂 Datasets
 
 The datasets used in this project come from **Kaggle**:  
-- [Kaggle]([https://www.kaggle.com/datasets/aritra100/global-tourism-statistics)  
+- [Original dataset link](https://www.kaggle.com/datasets/aritra100/global-tourism-statistics)  
 
 I have applied minor modifications using Excel (delimiter changes from `;` to `,`) to make them compatible with SQL Server bulk insert operations.
 
