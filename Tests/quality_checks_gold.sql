@@ -1,3 +1,25 @@
+/*===============================================================================
+GOLD LAYER – FOREIGN KEY INTEGRITY CHECKS
+---------------------------------------------------------------------------------
+Purpose:
+  Validate that the Gold layer fact views correctly reference their 
+  related dimensions (Country, Indicator, Year, Unit of Measure).
+
+How to use:
+  - For Domestic / Inbound / Outbound / Industries: run the first query.
+    Replace the fact table name in the FROM clause to test each one.
+  - For SDG: use the second dedicated query.
+
+Output:
+  - Queries return ONLY rows where dimension keys are not resolved 
+    (NULL values after LEFT JOIN). 
+    Empty result set = integrity OK.
+
+Notes:
+  - Run after (re)creating dim_* and fact_* views.
+  - Consider adding indexes on fact_* and dim_* keys to improve performance.
+===============================================================================*/
+
 -- ==================================================================================
 -- Checking 'gold.fact_domestic_tourism'; 'gold.fact_inbound_tourism'; 
 -- 'gold.fact_outbound_tourism';'gold.fact_tourism_industries'
