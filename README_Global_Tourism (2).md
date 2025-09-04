@@ -111,8 +111,6 @@ global-tourism-dwh/
 ## 🚀 Next Steps
 
 - [ ] Build Tableau dashboards for global tourism KPIs.  
-- [ ] Extend dataset to additional years or tourism metrics.  
-- [ ] Deploy on Azure SQL Database for scalability.  
 
 ---
 
@@ -125,8 +123,8 @@ This project is licensed under the **MIT License**.
 ## 🌟 About Me
 
 Hi, I’m **Daniele Amoroso** 👋  
-HR Generalist with strong interest in **Data Engineering, SQL, and Data Science**.  
+HR Generalist transitioning into **Data Analytics and Data Science**, with a focus on SQL, Python, and AI Automation.
 
 Currently transitioning into the data field by building portfolio projects that combine technical skills with analytical thinking.  
 
-📌 Connect with me on LinkedIn → [Your LinkedIn link here]  
+📌 Connect with me on LinkedIn → [](https://www.linkedin.com/in/daniele-a-080786b7/)]  
