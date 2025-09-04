@@ -119,7 +119,7 @@ global-tourism-dwh/
 The datasets used in this project come from **Kaggle**:  
 - [Original dataset link](https://www.kaggle.com/datasets/aritra100/global-tourism-statistics)  
 
-I have applied minor modifications using Excel (delimiter changes from `;` to `,`) to make them compatible with SQL Server bulk insert operations.
+I have applied minor modifications using Excel (delimiter changes from `,` to `;`) to make them compatible with SQL Server bulk insert operations.
 
 ⚠️ Note: This project is for **educational and portfolio purposes** only.  
 All rights remain with the original dataset authors.
