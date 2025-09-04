@@ -1,0 +1,259 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
+  <diagram name="Pagina-1" id="WMZlt_H4yjfwU_jk8r-9">
+    <mxGraphModel dx="1426" dy="969" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="meP_u5kL3E_fCrL73MEE-1" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;Integration Model &lt;/font&gt;&lt;font size=&quot;1&quot; style=&quot;&quot;&gt;(Silver Layer)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="19" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-2" value="domestic_accommodation" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="105" y="129" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-3" value="Country_code" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-2">
+          <mxGeometry y="30" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-4" value="Country" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-2">
+          <mxGeometry y="60" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-5" value="Indicator_code" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-2">
+          <mxGeometry y="90" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-6" value="domestic_trip" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="325" y="129" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-7" value="Country_code" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-6">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-8" value="Country" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-6">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-9" value="Indicator_code" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-6">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-10" value="inbound_accommodation" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="565" y="129" width="140" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-11" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-10">
+          <mxGeometry y="30" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-12" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-10">
+          <mxGeometry y="50" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-13" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-10">
+          <mxGeometry y="80" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-14" value="inbound_arrivals" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="765" y="129" width="120" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-15" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-14">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-16" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-14">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-17" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-14">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-18" value="Series_method" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-14">
+          <mxGeometry y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-19" value="inbound_expenditure" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="770" y="339" width="120" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-20" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-19">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-21" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-19">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-22" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-19">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-23" value="Series_method" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-19">
+          <mxGeometry y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-24" value="inbound_purpose" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="955" y="129" width="120" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-25" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-24">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-26" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-24">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-27" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-24">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-28" value="Series_method" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-24">
+          <mxGeometry y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-29" value="inbound_regions" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="955" y="339" width="120" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-30" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-29">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-31" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-29">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-32" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-29">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-33" value="Series_method" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-29">
+          <mxGeometry y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-34" value="inbound_transport" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="585" y="339" width="120" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-35" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-34">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-36" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-34">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-37" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-34">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-38" value="Series_method" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-34">
+          <mxGeometry y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-39" value="outbound_departures" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="125" y="369" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-40" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-39">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-41" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-39">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-42" value="outbound_expenditure" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="315" y="369" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-43" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-42">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-44" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-42">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-45" value="Series_method" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-42">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-46" value="sdg_891" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="580" y="629" width="130" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-47" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-46">
+          <mxGeometry y="30" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-48" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-46">
+          <mxGeometry y="60" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-49" value="sdg_892" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="765" y="629" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-50" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-49">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-51" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-49">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-52" value="sdg_12b1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="935" y="629" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-53" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-52">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-54" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-52">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-55" value="tourism_industries" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="225" y="619" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-56" value="Country_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-55">
+          <mxGeometry y="30" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-57" value="Country" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-55">
+          <mxGeometry y="60" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-58" value="Indicator_code" style="text;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="meP_u5kL3E_fCrL73MEE-55">
+          <mxGeometry y="90" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-59" value="This table contains info about domestic tourism trips" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="305" y="99" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-60" value="This table contains statistics on accommodation used for domestic tourism" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="99" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-61" value="This table contains statistics on accommodation used for inbound tourism" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="555" y="89" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-62" value="This table contains the number of international tourist arrivals" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="735" y="99" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-63" value="This table categorizes inbound tourism arrivals by their main purpose of visit" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="935" y="89" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-64" value="This table provides data on inbound arrivals by mode of transport" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="565" y="299" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-65" value="This table focuses on the expenditure by inbound tourists within the country" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="735" y="299" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-66" value="This table contains info about inbound tourism arrivals by the region of origin" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="930" y="299" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-67" value="SDG Indicator 8.9.2: Employment in Tourism Industries (number)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="745" y="589" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-68" value="SDG Indicator 12.b.1: Implementation od Standard Accounting Tools for Tourism" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="915" y="589" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-69" value="This table details the expenditure by outbound tourists in other countries" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="295" y="329" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-70" value="This table focuses on departures for outbound tourism" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="105" y="329" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-71" value="This table provides info related to accommodation within the tourism industries" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="165" y="579" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-72" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=25;" vertex="1" parent="1">
+          <mxGeometry x="45" y="89" width="440" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-73" value="DOMESTIC TOURISM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#6c8ebf;strokeWidth=3;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="185" y="59" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-74" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;opacity=25;shadow=0;glass=0;" vertex="1" parent="1">
+          <mxGeometry x="525" y="69" width="600" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-75" value="INBOUND TOURISM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#d6b656;strokeWidth=3;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="730" y="39" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-76" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;opacity=25;" vertex="1" parent="1">
+          <mxGeometry x="45" y="309" width="440" height="196" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-77" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;opacity=25;" vertex="1" parent="1">
+          <mxGeometry x="525" y="561" width="600" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-78" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;opacity=25;" vertex="1" parent="1">
+          <mxGeometry x="45" y="559" width="440" height="196" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-79" value="SDG" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#b85450;strokeWidth=3;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="725" y="529" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-80" value="OUTBOUND TOURISM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#82b366;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="175" y="279" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-81" value="TOURISM INDUSTRIES" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#9673a6;strokeWidth=3;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="175" y="529" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-82" value="&lt;font&gt;* Each table has a Indicator_code column. The Indicator_codes differ for each table and represent IDs for each type of indicator measured (e.g., &#39;Total trips&#39;, &#39;Overnight visitors (tourists)&#39;, &#39;Same-day visitors (excursionists)&#39;).&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="779" width="1080" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="meP_u5kL3E_fCrL73MEE-83" value="SDG Indicator 8.9.1: Tourism Direct GDP as % of Total GDP" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="565" y="589" width="160" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
