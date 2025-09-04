@@ -12,7 +12,7 @@ Purpose:
 
 Usage:
 
-   - These view can be queried directly for analytics and reporting. 
+   - These views can be queried directly for analytics and reporting. 
 ===============================================================
 CREATE GOLD DIMENSION VIEWS
 ===============================================================
