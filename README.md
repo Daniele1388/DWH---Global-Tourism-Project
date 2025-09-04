@@ -95,10 +95,10 @@ global-tourism-dwh/
 │   ├── gold/                     # Fact & Dimension views
 │
 ├── docs/                         # Documentation & diagrams
-│   ├── Data_Architecture.pdf
-│   ├── Data_flow.pdf
-│   ├── Integration_Model_Silver.pdf
-│   ├── Integration_Model_Gold.pdf
+│   ├── Data_Architecture.png
+│   ├── Data_flow.png
+│   ├── Integration_Model_Silver.png
+│   ├── Integration_Model_Gold.png
 │
 ├── tests/                        # Foreign key & data integrity checks
 │
