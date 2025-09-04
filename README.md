@@ -127,4 +127,4 @@ HR Generalist transitioning into **Data Analytics and Data Science**, with a foc
 
 Currently transitioning into the data field by building portfolio projects that combine technical skills with analytical thinking.  
 
-📌 Connect with me on LinkedIn → [](https://www.linkedin.com/in/daniele-a-080786b7/)]  
+📌 Connect with me on LinkedIn → [Daniele Amoroso](https://www.linkedin.com/in/daniele-a-080786b7/)]  
