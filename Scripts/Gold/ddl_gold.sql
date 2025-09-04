@@ -10,6 +10,9 @@ Purpose:
   - Fact views (fact_*) provide cleaned and conformed measures 
     from the Silver layer, linked to the dimension keys.
 
+Usage:
+
+   - These view can be queried directly for analytics and reporting. 
 ===============================================================
 CREATE GOLD DIMENSION VIEWS
 ===============================================================
