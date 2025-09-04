@@ -1,5 +1,5 @@
 -- ==================================================================================
--- checking 'gold.fact_domestic_tourism'; 'gold.fact_inbound_tourism'; 
+-- Checking 'gold.fact_domestic_tourism'; 'gold.fact_inbound_tourism'; 
 -- 'gold.fact_outbound_tourism';'gold.fact_tourism_industries'
 -- ==================================================================================
 --   Foreign Key Integrity (Dimensions) 
