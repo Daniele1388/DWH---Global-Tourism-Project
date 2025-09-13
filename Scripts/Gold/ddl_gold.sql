@@ -64,7 +64,7 @@ WHERE country_id IS NOT NULL AND country_name IS NOT NULL;
 CREATE OR ALTER VIEW gold.dim_indicator AS
 WITH cte_indicator AS
 (
-	SELECT
+	SELECT DISTINCT
 	t.Indicator_code AS Indicator_id,
 		CASE
 			WHEN t.Indicator_code = '2.19' THEN t.Indicator + ' (ACCOMMODATION)'
