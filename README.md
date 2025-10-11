@@ -110,7 +110,7 @@ global-tourism-dwh/
 
 ## 🚀 Next Steps
 
-- [ ] Build Tableau dashboards for global tourism KPIs.  
+- [ ] Conduct Exploratory Data Analysis (EDA) to assess and ensure data quality within the Gold Layer.
 
 ---
 
