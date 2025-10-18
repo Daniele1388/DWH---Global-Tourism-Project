@@ -437,7 +437,7 @@ CREATE TABLE silver.sdg_891 (
 	Country NVARCHAR(200),
 	Time_Period DATE,
 	Value DECIMAL(18, 2),
-	Source NVARCHAR(200),
+	SeriesDescription NVARCHAR(200),
 	Nature NVARCHAR(50),
 	Units NVARCHAR(50),
 	dwh_create_date DATETIME2 DEFAULT GETDATE()
@@ -450,7 +450,7 @@ CREATE TABLE silver.sdg_892 (
 	Country NVARCHAR(200),
 	Time_Period DATE,
 	Value DECIMAL(18, 2),
-	Source NVARCHAR(200),
+	SeriesDescription NVARCHAR(200),
 	Nature NVARCHAR(50),
 	Units NVARCHAR(50),
 	dwh_create_date DATETIME2 DEFAULT GETDATE()
@@ -463,7 +463,7 @@ CREATE TABLE silver.sdg_12b1 (
 	Country NVARCHAR(200),
 	Time_Period DATE,
 	Value DECIMAL(18, 2),
-	Source NVARCHAR(200),
+	SeriesDescription NVARCHAR(200),
 	Nature NVARCHAR(50),
 	Units NVARCHAR(50),
 	dwh_create_date DATETIME2 DEFAULT GETDATE()
