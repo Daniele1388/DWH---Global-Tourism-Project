@@ -24,54 +24,58 @@ What this script DOES
 
 2) Column Mapping & Renaming
    - Bronze C      -> Silver Country_code (INT)
-   - Bronze S      -> Silver Indicator_code (DECIMAL(5,2))
+   - Bronze S      -> Silver Indicator_code (**NVARCHAR(20)**, normalized as text; preserves trailing zeros)
    - Bronze Basic_Data -> Silver Country (cleaned/standardized)
    - Bronze Unnamed_5..Unnamed_8 -> Silver Indicator_L1..Indicator_L4
    - Bronze Units  -> Silver Units
    - For SDG tables: GeoAreaCode -> Country_code; GeoAreaName -> Country;
-     TimePeriod (YYYY) -> Time_Period (DATE = 1 Jan of that year);
-     Value -> DECIMAL(18,2); Source, Nature, Units carried over.
+     TimePeriod (YYYY) -> Time_Period (DATE = Jan 1 of that year);
+     Value -> DECIMAL(18,2); SeriesDescription, Nature, Units carried over.
 
 3) Data Cleaning Rules (applied consistently)
-   - Whitespace: TRIM/LTRIM/RTRIM on text columns.
-   - Placeholders: convert '..' and empty strings '' to NULL.
-   - Numbers from text:
-       * Remove thousands separators (commas) with REPLACE(…, ',', '')
-       * Preserve decimal points (e.g., '0.3' stays 0.3)
-       * Cast to DECIMAL(18,2) for all year_* columns and SDG Value.
-   - Header/noise rows in Country:
-       * Rows where Basic_Data starts with '"The information' or 'Source'
-         are set to NULL Country and still loaded (so you can detect them),
-         i.e., they won’t masquerade as a real country.
-   - Series method:
-       * Where present in bronze 'Series', cleaned to Series_method
-         (trim + placeholder→NULL).
+   - Whitespace: TRIM/LTRIM/RTRIM on all textual columns.
+   - Placeholders: convert '..' and empty string '' to NULL (where appropriate).
+   - Numbers from text (years/values):
+       * Remove thousands separators (',') via REPLACE, preserve decimal points.
+       * Cast to DECIMAL(18,2) for all year_* columns and SDG.Value.
+   - Country: remove header/noise rows (“The information…”, “Source…” → NULL),
+     plus normalize country names (COTE D'IVOIRE, SOUTH KOREA, HONG KONG, etc.).
 
-4) Country Name Normalization
-   - Applies a curated CASE mapping to standardize variants
-     (e.g., "COTE D’IVOIRE" → "COTE D'IVOIRE", "KOREA, REPUBLIC OF" → "SOUTH KOREA",
-     "CHINA, HONG KONG SPECIAL ADMINISTRATIVE REGION" → "HONG KONG", etc.).
-   - SDG also uppercases GeoAreaName before mapping to increase hit rate.
+4) Normalization of `Indicator_code` (from Bronze.S NVARCHAR)
+   - **General rule** (applied to all tourism tables):
+       * If `S` is NULL/empty → NULL.
+       * If `S` already contains a '.' → leave as is (prevents double dots).
+       * If `S` is only digits and LEN >= 2 → insert a dot after the first digit
+         (e.g. '219' → '2.19', '22' → '2.2', '110' → '1.10').
+       * If LEN = 1 → leave as is (e.g. '3' → '3').
+     (Implemented with `STUFF(S, 2, 0, '.')` after checks; zero-padding
+      is preserved because the column remains NVARCHAR.)
+   - **Table-specific fixes** (to keep both variants with and without trailing zero, as required by the domain):
+       * silver.domestic_accommodation: force '2.2' → **'2.20'**
+       * silver.inbound_accommodation: force '1.3' → **'1.30'**
+       * silver.inbound_transport:      force '1.2' → **'1.20'**
+       * silver.inbound_regions:        force '1.1' → **'1.10'**
+     These fixes are applied **before** the general rule so they take precedence.
+   - Goal: allow coexistence of both '1.1' and '1.10', '2.2' and '2.20', '1.3' and '1.30', etc., exactly as in the desired reference list.
 
 5) Special SDG Handling
    - Time_Period: DATEFROMPARTS(YYYY, 1, 1).
-   - Common remaps in sdg_891 & sdg_892: 534→663, 535→658, 531→535, 276→280, 231→230
-   - sdg_12b1 remaps: 534→663, 535→658, 531→535, 276→280, 231→288 (plus a name fix: ETHIOPIA → GHANA to align with the 231→288 change)
-   - Dropped constant SDG columns: INDEX/SDG_Indicator/SeriesCode/SeriesDescription.
+   - Country code remapping for consistency:
+       * sdg_891 & sdg_892: 534→663, 535→658, 531→535, 276→280, 231→230
+       * sdg_12b1:          534→663, 535→658, 531→535, 276→280, 231→288
+         (plus name fix: ETHIOPIA → GHANA for alignment 231→288)
+   - Constant SDG columns dropped: INDEX / SDG_Indicator / SeriesCode / Source.
 
 6) Operational Behavior
-   - Idempotent full reload: TRUNCATE target, then INSERT SELECT from bronze.
-   - Basic runtime logging with PRINT:
-       * Section banners
-       * Per-block elapsed seconds
-       * Total elapsed time
-   - TRY…CATCH block prints detailed error diagnostics
-     (message, number, state, severity, line, procedure).
+   - Full idempotent reload: TRUNCATE + INSERT SELECT.
+   - PRINT logging of section start/finish and elapsed times.
+   - TRY…CATCH with detailed diagnostics (message/number/state/severity/line/proc).
 
 ======================================================================
 */
 
-CREATE OR ALTER PROCEDURE [silver].[load_data] AS
+
+ALTER   PROCEDURE [silver].[load_data] AS
 BEGIN
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME; 
 	BEGIN TRY
@@ -82,11 +86,13 @@ BEGIN
 		PRINT 'Source: corresponding bronze raw tables (wide year_* format)';
 		PRINT 'Cleaning: TRIM text; convert ''..''/'''' to NULL; remove thousands';
 		PRINT 'separators (commas) preserving decimals; cast year_* to DECIMAL(18,2);';
-		PRINT 'map C -> Country_code (INT) and S -> Indicator_code (DECIMAL(5,2));';
+		PRINT 'map C -> Country_code (INT) and S -> Indicator_code (NVARCHAR(20));';
 		PRINT 'standardize Country names and ignore header/noise rows.';
 		PRINT 'Dropped: C_and_S, Notes, and unused Unnamed_* columns.';
 		PRINT '=========================================================';
 
+-- silver.domestic_accommodation
+		
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.domestic_accommodation;
 		INSERT INTO silver.domestic_accommodation
@@ -130,7 +136,13 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') = '2.2' THEN '2.20'
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -197,6 +209,8 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
+
+-- silver.domestic_trip
 		
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.domestic_trip;
@@ -241,7 +255,12 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -308,7 +327,9 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
-		
+	
+-- silver.inbound_accommodation
+	
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_accommodation;
 		INSERT INTO silver.inbound_accommodation
@@ -352,7 +373,13 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') = '1.3' THEN '1.30'
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -419,6 +446,8 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
+
+-- silver.outbound_departures
 		
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.outbound_departures;
@@ -463,7 +492,12 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -530,6 +564,8 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
+
+-- silver.tourism_industries
 		
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.tourism_industries;
@@ -574,7 +610,12 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -648,11 +689,13 @@ BEGIN
 		PRINT 'Source: corresponding bronze raw tables (wide year_* format)';
 		PRINT 'Cleaning: TRIM text; convert ''..''/'''' to NULL; remove thousands';
 		PRINT 'separators (commas) preserving decimals; cast year_* to DECIMAL(18,2);';
-		PRINT 'map C -> Country_code (INT), S -> Indicator_code (DECIMAL(5,2));';
+		PRINT 'map C -> Country_code (INT), S -> Indicator_code (NVARCHAR(20));';
 		PRINT 'extract/clean Series -> Series_method; standardize Country names.';
 		PRINT 'Dropped: C_and_S, Notes, and unused Unnamed_* columns.';
 		PRINT '=========================================================';
 
+
+-- silver.inbound_arrivals
 		
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_arrivals;
@@ -698,8 +741,13 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
-			CASE 
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
+			CASE
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
 			ELSE 
@@ -767,6 +815,8 @@ BEGIN
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
 
+-- silver.inbound_expenditure
+
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_expenditure;
 		INSERT INTO silver.inbound_expenditure
@@ -811,7 +861,12 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -880,6 +935,8 @@ BEGIN
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
 
+-- silver.inbound_purpose
+
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_purpose;
 		INSERT INTO silver.inbound_purpose
@@ -924,7 +981,12 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -993,6 +1055,8 @@ BEGIN
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
 
+-- silver.inbound_regions
+
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_regions;
 		INSERT INTO silver.inbound_regions
@@ -1037,7 +1101,13 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') = '1.1' THEN '1.10'
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -1106,6 +1176,8 @@ BEGIN
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
 
+-- silver.inbound_transport
+
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.inbound_transport;
 		INSERT INTO silver.inbound_transport
@@ -1150,7 +1222,13 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') = '12' THEN '1.20'
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -1218,7 +1296,9 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
-       
+ 
+ -- silver.outbound_expenditure
+ 
  	    SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.outbound_expenditure;
 		INSERT INTO silver.outbound_expenditure
@@ -1263,7 +1343,12 @@ BEGIN
 		)
 		SELECT
 			TRY_CONVERT(INT, C) AS Country_code,
-			TRY_CONVERT(DECIMAL(5,2), REPLACE(S, ',','.')) AS Indicator_code,
+			CASE
+				WHEN NULLIF(TRIM(REPLACE(S, ',', '.')), '') IS NULL THEN NULL
+				WHEN CHARINDEX('.', TRIM(REPLACE(S, ',', '.'))) > 0 THEN TRIM(REPLACE(S, ',', '.'))
+				WHEN LEN(TRIM(REPLACE(S, ',', '.'))) = 1 THEN TRIM(REPLACE(S, ',', '.'))
+				ELSE STUFF(TRIM(REPLACE(S, ',', '.')), 2, 0, '.') 
+			END AS Indicator_code,
 			CASE 
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE '"The information%' THEN NULL
 				WHEN NULLIF(TRIM(REPLACE(Basic_data,'..','')), '') LIKE 'Source%' THEN NULL
@@ -1340,11 +1425,13 @@ BEGIN
 		PRINT 'cast Value to DECIMAL(18,2); handle NULLs and placeholder values;';
 		PRINT 'standardize Country_code (INT) and Geo_Area_Name.';
 		PRINT 'SPECIAL NOTE: Remap conflicting Country_code values across SDG tables';
-		PRINT '    * sdg_891 & sdg_892: 534->663, 535->658, 531->535, 276->280, 231->230';
-		PRINT '    * sdg_12b1:          534->663, 535->658, 531->535, 276->280, 231->288';
-		PRINT '      (plus name fix: ETHIOPIA -> GHANA to align with 231->288 remap)';
-		PRINT 'Dropped: INDEX, SDG_Indicator, SeriesCode, SeriesDescription (constant values).';
+		PRINT '    * sdg_891 & sdg_892: 534→663, 535→658, 531→535, 276→280, 231→230';
+		PRINT '    * sdg_12b1:          534→663, 535→658, 531→535, 276→280, 231→288';
+		PRINT '      (plus name fix: ETHIOPIA → GHANA to align with 231→288 remap)';
+		PRINT 'Dropped: INDEX, SDG_Indicator, SeriesCode, Source';
 		PRINT '=========================================================';
+
+-- silver.sdg_891
 
         SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.sdg_891;
@@ -1354,7 +1441,7 @@ BEGIN
 			Country,
 			Time_Period,
 			Value,
-			Source,
+			SeriesDescription,
 			Nature,
 			Units
 		)
@@ -1391,7 +1478,7 @@ BEGIN
 		END AS Country,	
 			DATEFROMPARTS(TRY_CONVERT(INT, TimePeriod), 1,1) AS Time_Period,
 			TRY_CONVERT(DECIMAL(18,2), Value) AS Value,
-			NULLIF(TRIM(Source), '') AS Source,
+			NULLIF(TRIM(SeriesDescription), '') AS SeriesDescription,
 			NULLIF(TRIM(Nature), '') AS Nature,
 			NULLIF(TRIM(Units), '') AS Units
 		FROM bronze.raw_sdg_891;
@@ -1399,7 +1486,9 @@ BEGIN
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT '>> -------------';
-        
+
+-- silver.sdg_892
+     
 		SET @start_time = GETDATE();
 		TRUNCATE TABLE silver.sdg_892;
 		INSERT INTO silver.sdg_892
@@ -1408,7 +1497,7 @@ BEGIN
 			Country,
 			Time_Period,
 			Value,
-			Source,
+			SeriesDescription,
 			Nature,
 			Units
 		)
@@ -1445,10 +1534,12 @@ BEGIN
 		END AS Country,			
 			DATEFROMPARTS(TRY_CONVERT(INT, TimePeriod), 1,1) AS Time_Period,
 			TRY_CONVERT(DECIMAL(18,2), Value) AS Value,
-			NULLIF(TRIM(Source), '') AS Source,
+			NULLIF(TRIM(SeriesDescription), '') AS SeriesDescription,
 			NULLIF(TRIM(Nature), '') AS Nature,
 			NULLIF(TRIM(Units), '') AS Units
 		FROM bronze.raw_sdg_892;
+
+-- silver.sdg_12b1
 
 		SET @end_time = GETDATE();
 		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
@@ -1462,7 +1553,7 @@ BEGIN
 			Country,
 			Time_Period,
 			Value,
-			Source,
+			SeriesDescription,
 			Nature,
 			Units
 		)
@@ -1500,7 +1591,7 @@ BEGIN
 		END AS Country,	
 			DATEFROMPARTS(TRY_CONVERT(INT, TimePeriod), 1,1) AS Time_Period,
 			TRY_CONVERT(DECIMAL(18,2), Value) AS Value,
-			NULLIF(TRIM(Source), '') AS Source,
+			NULLIF(TRIM(SeriesDescription), '') AS SeriesDescription,
 			NULLIF(TRIM(Nature), '') AS Nature,
 			NULLIF(TRIM(Units), '') AS Units
 		FROM bronze.raw_sdg_12b1;
@@ -1527,3 +1618,6 @@ BEGIN
 		PRINT '=========================================================';
 	END CATCH 
 END
+
+
+
