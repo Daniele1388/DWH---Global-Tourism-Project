@@ -44,7 +44,7 @@ The data ingestion and transformation pipeline is structured as follows:
 
 ### Gold Layer Integration Model  
 
-![Integration Model Gold](docs/Integration_Model_Gold.png)  
+![Integration Model Gold](docs/Integration_Model_Gold.png?v=2)  
 
 - **Star Schema** design with Fact and Dimension views:  
   - **Dimensions**: Country, Indicator, Year, Unit of Measure.  
