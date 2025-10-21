@@ -466,7 +466,7 @@ SELECT
 	CASE 
 		WHEN SeriesDescription = 'Tourism direct GDP as a proportion of total GDP (%)' THEN 'SDG_8.9.1_GDP'
 		WHEN SeriesDescription = 'Employed persons in the tourism industries (number)' THEN 'SDG_8.9.2_EMP'
-		WHEN SeriesDescription = 'Implementation of standard accounting tools to monitor the economic and environmental aspects of tourism (SEEA tables)' THEN 'SDG_12.b.1_SEEA'
+		WHEN SeriesDescription LIKE 'Implementation of standard accounting tools to monitor the economic and environmental aspects of tourism (%' THEN 'SDG_12.b.1_SEEA'
 		ELSE SeriesDescription
 	END AS Indicator,
 	ye.Year_key,
