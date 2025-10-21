@@ -455,13 +455,20 @@ WITH cte_sdg AS
 	*
 	FROM
 	(
-		SELECT Country_code, Units, DATEPART(year, Time_Period) AS Year, Value FROM silver.sdg_891
-		UNION ALL SELECT Country_code, Units, DATEPART(year, Time_Period) AS Year, Value FROM silver.sdg_892	 
-		UNION ALL SELECT Country_code, Units, DATEPART(year, Time_Period) AS Year, Value FROM silver.sdg_12b1		
+		SELECT Country_code, SeriesDescription, Units, DATEPART(year, Time_Period) AS Year, Value FROM silver.sdg_891
+		UNION ALL SELECT Country_code, SeriesDescription, Units, DATEPART(year, Time_Period) AS Year, Value FROM silver.sdg_892	 
+		UNION ALL SELECT Country_code, SeriesDescription, Units, DATEPART(year, Time_Period) AS Year, Value FROM silver.sdg_12b1		
 	) t
 )
 SELECT
 	co.Country_key,
+	-- Add readable SDG indicator code
+	CASE 
+		WHEN SeriesDescription = 'Tourism direct GDP as a proportion of total GDP (%)' THEN 'SDG_8.9.1_GDP'
+		WHEN SeriesDescription = 'Employed persons in the tourism industries (number)' THEN 'SDG_8.9.2_EMP'
+		WHEN SeriesDescription = 'Implementation of standard accounting tools to monitor the economic and environmental aspects of tourism (SEEA tables)' THEN 'SDG_12.b.1_SEEA'
+		ELSE SeriesDescription
+	END AS Indicator,
 	ye.Year_key,
 	un.Units_key,
 	cte.Value
