@@ -1,13 +1,13 @@
-# 🌍 Global Tourism Statistics Data Warehouse
+#  Global Tourism Statistics Data Warehouse
 
-Welcome to the **Global Tourism Statistics Data Warehouse** repository! 🚀  
+Welcome to the **Global Tourism Statistics Data Warehouse** repository!   
 This project demonstrates the design and implementation of a modern data warehouse using **Medallion Architecture (Bronze → Silver → Gold)**, applied to real-world datasets on global tourism and UN SDG indicators.  
 
 It is built to showcase **Data Engineering, SQL Development, and Data Analytics** skills in a professional, portfolio-ready format.  
 
 ---
 
-## 🏗️ Data Architecture
+##  Data Architecture
 
 The architecture follows the Medallion approach:  
 
@@ -19,7 +19,7 @@ The architecture follows the Medallion approach:
 
 ---
 
-## 🔄 Data Flow
+##  Data Flow
 
 The data ingestion and transformation pipeline is structured as follows:  
 
@@ -32,7 +32,7 @@ The data ingestion and transformation pipeline is structured as follows:
 
 ---
 
-## 📊 Integration Models
+##  Integration Models
 
 ### Silver Layer Integration Model  
 
@@ -53,7 +53,7 @@ The data ingestion and transformation pipeline is structured as follows:
 
 ---
 
-## 📖 Project Overview
+##  Project Overview
 
 This project involves:  
 
@@ -63,7 +63,7 @@ This project involves:
 4. **Data Quality** → Foreign key integrity checks and null handling.  
 5. **Analytics & Reporting** → Business-ready datasets for visualization (Tableau/Power BI).  
 
-🎯 Skills demonstrated:  
+Skills demonstrated:  
 - SQL Server (T-SQL)  
 - Data Engineering (ETL/ELT)  
 - Data Modeling (Star Schema)  
@@ -72,7 +72,7 @@ This project involves:
 
 ---
 
-## 🛠️ Tools & Technologies
+## Tools & Technologies
 
 - **SQL Server (SSMS)** → Database & ETL implementation.  
 - **GitHub** → Version control & portfolio sharing.  
@@ -82,7 +82,7 @@ This project involves:
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 global-tourism-dwh/
@@ -108,35 +108,34 @@ global-tourism-dwh/
 
 ---
 
-## 🚀 Next Steps
+## Next Steps
 
 - [ ] Conduct Exploratory Data Analysis (EDA) to assess and ensure data quality within the Gold Layer.
 
 ---
 
-## 📂 Datasets
+## Datasets
 
 The datasets used in this project come from **Kaggle**:  
 - [Original dataset link](https://www.kaggle.com/datasets/aritra100/global-tourism-statistics)  
 
 I have applied minor modifications using Excel (delimiter changes from `,` to `;`) to make them compatible with SQL Server bulk insert operations.
 
-⚠️ Note: This project is for **educational and portfolio purposes** only.  
+Note: This project is for **educational and portfolio purposes** only.  
 All rights remain with the original dataset authors.
 
 ---
 
-## 🛡️ License
+## License
 
 This project is licensed under the **MIT License**.  
 
 ---
 
-## 🌟 About Me
+## About Me
 
-Hi, I’m **Daniele Amoroso** 👋  
-HR Generalist transitioning into **Data Analytics and Data Science**, with a focus on SQL, Python, and AI Automation.
-
-Currently transitioning into the data field by building portfolio projects that combine technical skills with analytical thinking.  
+Hi, I’m **Daniele Amoroso**   
+I like working with data and I’m interested in Data Analytics, Data Science, and AI Automation. 
+I build data projects to understand information and find insights. 
 
 📌 Connect with me on LinkedIn → [Daniele Amoroso](https://www.linkedin.com/in/daniele-a-080786b7/)]  
