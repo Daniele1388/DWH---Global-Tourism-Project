@@ -128,7 +128,7 @@ All rights remain with the original dataset authors.
 
 ## License
 
-This project is licensed under the **MIT License**.  
+This repository is part of the **Global Tourism Statistics** ecosystem and released under the **MIT License**.  
 
 ---
 
