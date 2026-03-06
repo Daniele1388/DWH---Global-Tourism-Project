@@ -3,7 +3,7 @@
 Welcome to the **Global Tourism Statistics Data Warehouse** repository!   
 This project shows the design and implementation of a modern data warehouse using **Medallion Architecture (Bronze → Silver → Gold)**, applied to real-world datasets on global tourism and UN SDG indicators.  
 
-It is built to showcase **Data Engineering, SQL Development, and Data Analytics** skills in a professional, portfolio-ready format.  
+It is built to showcase **Data Engineering, SQL Development, and Data Analytics** skills in a professional, portfolio format.  
 
 ---
 
@@ -58,7 +58,7 @@ The data ingestion and transformation pipeline is structured as follows:
 This project involves:  
 
 1. **Data Architecture** → Medallion (Bronze, Silver, Gold).  
-2. **ETL Pipelines** → SQL-based transformations from CSV to Gold.  
+2. **ETL Pipelines** → SQL transformations from CSV to Gold.  
 3. **Data Modeling** → Fact & Dimension views (star schema).  
 4. **Data Quality** → Foreign key integrity checks and null handling.  
 5. **Analytics & Reporting** → Business-ready datasets for visualization (Tableau/Power BI).  
