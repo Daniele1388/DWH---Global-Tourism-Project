@@ -3,7 +3,7 @@
 Welcome to the **Global Tourism Statistics Data Warehouse** repository!   
 This project shows the design and implementation of a modern data warehouse using **Medallion Architecture (Bronze → Silver → Gold)**, applied to real-world datasets on global tourism and UN SDG indicators.  
 
-It is built to showcase **Data Engineering, SQL Development, and Data Analytics** skills in a professional, portfolio format.  
+It is built to showcase **Data Engineering, SQL Development, and Data Analytics** skills in a professional portfolio format.  
 
 ---
 
