@@ -58,7 +58,7 @@ The data ingestion and transformation pipeline is structured as follows:
 This project involves:  
 
 1. **Data Architecture** → Medallion (Bronze, Silver, Gold).  
-2. **ETL Pipelines** → SQL transformations from CSV to Gold.  
+2. **ELT Pipelines** → SQL transformations into Data Warehouse.  
 3. **Data Modeling** → Fact & Dimension views (star schema).  
 4. **Data Quality** → Foreign key integrity checks and null handling.  
 5. **Analytics & Reporting** → Business-ready datasets for visualization (Tableau/Power BI).  
