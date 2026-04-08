@@ -65,7 +65,7 @@ This project involves:
 
 Skills demonstrated:  
 - SQL Server (T-SQL)  
-- Data Engineering (ETL/ELT)  
+- Data Engineering (ELT)  
 - Data Modeling (Star Schema)  
 - Data Quality & Integrity  
 - Analytics Preparation  
