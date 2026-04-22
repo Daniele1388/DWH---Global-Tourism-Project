@@ -135,7 +135,7 @@ This repository is part of the **Global Tourism Statistics** ecosystem and relea
 ## About Me
 
 Hi, I’m **Daniele Amoroso**   
-I like working with data and I’m interested in Data Analytics, Data Science, and AI Automation. 
+I like working with data and I’m interested in Data Analytics, Data Engineering, and AI Automation. 
 I build data projects to understand information and find insights. 
 
 📌 Connect with me on LinkedIn → [Daniele Amoroso](https://www.linkedin.com/in/daniele-a-080786b7/)]  
